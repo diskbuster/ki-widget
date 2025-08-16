@@ -1,14 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-// Importpfade ohne Dateierweiterung, wie in modernen React-Projekten üblich
 import { ChatMessage } from "./components/ChatMessage";
 import { ChatInput } from "./components/ChatInput";
 import { X, RotateCcw } from "lucide-react";
 
 const API_ENDPOINT = "https://botserver.lab49.de";
 
+interface AssistantItem {
+  name: string;
+  ort: string;
+  pfad: string;                 // z.B. "node/1234" oder "betrieb/foo"
+  ausbildungsberufe?: string[];
+}
+interface AssistantPayload {
+  items: AssistantItem[];
+  includeBerufeLink?: boolean;
+}
+
 interface Message {
   role: "user" | "assistant";
   content: string;
+  payload?: AssistantPayload;   // <-- NEU: strukturierte Cards
 }
 
 interface WidgetSettings {
@@ -21,7 +32,7 @@ interface WidgetSettings {
   tooltip_reset?: string;
   tooltip_close?: string;
   loading_app?: string;
-  predefined_questions?: string[]; // Neu: Array für vorformulierte Fragen
+  predefined_questions?: string[];
 }
 
 const STORAGE_KEYS = {
@@ -29,17 +40,57 @@ const STORAGE_KEYS = {
   MESSAGES: "chatMessages",
 } as const;
 
-function App() {
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+// Type Guard: erkennt unser AssistantPayload sicher
+const isAssistantPayload = (obj: any): obj is AssistantPayload => {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    Array.isArray(obj.items) &&
+    obj.items.every(
+      (it: any) =>
+        it &&
+        typeof it === "object" &&
+        typeof it.name === "string" &&
+        typeof it.ort === "string" &&
+        typeof it.pfad === "string"
+    )
+  );
+};
 
+// Hilfsfunktion: prüft, ob ein String vollständiges JSON-Objekt enthält
+const looksLikeCompleteJson = (s: string) => {
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (esc) {
+      esc = false;
+      continue;
+    }
+    if (c === "\\") {
+      esc = true;
+      continue;
+    }
+    if (c === '"') {
+      inStr = !inStr;
+      continue;
+    }
+    if (inStr) continue;
+    if (c === "{") depth++;
+    else if (c === "}") depth--;
+  }
+  const t = s.trim();
+  return depth === 0 && t.startsWith("{") && t.endsWith("}");
+};
+
+function App() {
   const [messages, setMessages] = useState<Message[]>(() => {
-    const savedMessages = localStorage.getItem(STORAGE_KEYS.MESSAGES);
-    return savedMessages ? JSON.parse(savedMessages) : [];
+    const saved = localStorage.getItem(STORAGE_KEYS.MESSAGES);
+    return saved ? JSON.parse(saved) : [];
   });
   const [settings, setSettings] = useState<WidgetSettings>({
-    welcome_text: "Willkommen! Wie kann ich Ihnen heute helfen?", // Begrüßungstext
+    welcome_text: "Willkommen! Wie kann ich Ihnen heute helfen?",
     title: "Auregios Chatbot",
     show_poweredby: true,
     input_placeholder: "Schreibe Deine Frage...",
@@ -49,7 +100,6 @@ function App() {
     tooltip_close: "Chat schließen",
     loading_app: "Chat laden...",
     predefined_questions: [
-      // Vorformulierte Fragen
       "Welche Ausbildungsberufe gibt es?",
       "Finde Malerbetriebe in Melle.",
     ],
@@ -62,6 +112,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState<string | null>(null);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
     const loadSettings = async () => {
       try {
@@ -70,12 +124,9 @@ function App() {
 
         if (widgetId) {
           setId(widgetId);
-          const response = await fetch(
-            `${API_ENDPOINT}/settings?id=${widgetId}`,
-          );
+          const response = await fetch(`${API_ENDPOINT}/settings?id=${widgetId}`);
           let loadedSettings: WidgetSettings;
           if (response.ok) {
-            // Merge default settings with loaded settings
             loadedSettings = { ...settings, ...(await response.json()) };
           } else {
             throw new Error("Failed to load settings");
@@ -83,21 +134,18 @@ function App() {
           setSettings(loadedSettings);
         }
       } catch (error) {
-        // Fallback to default settings if loading fails
         console.error("Fehler beim Laden der Einstellungen:", error);
-        setSettings((prevSettings) => ({
-          ...prevSettings, // Behalte bestehende Defaults
+        setSettings((prev) => ({
+          ...prev,
           welcome_text:
-            prevSettings.welcome_text ||
-            "Willkommen! Wie kann ich Ihnen heute helfen?",
-          title: prevSettings.title || "Auregios Chatbot",
-          input_placeholder:
-            prevSettings.input_placeholder || "Schreibe Deine Frage...",
-          loading_api: prevSettings.loading_api || "Ich denke nach ...",
-          loading_openai: prevSettings.loading_openai || "Ich denke nach ...",
-          tooltip_reset: prevSettings.tooltip_reset || "Chat zurücksetzen",
-          tooltip_close: prevSettings.tooltip_close || "Chat schließen",
-          loading_app: prevSettings.loading_app || "Chat laden...",
+            prev.welcome_text || "Willkommen! Wie kann ich Ihnen heute helfen?",
+          title: prev.title || "Auregios Chatbot",
+          input_placeholder: prev.input_placeholder || "Schreibe Deine Frage...",
+          loading_api: prev.loading_api || "Ich denke nach ...",
+          loading_openai: prev.loading_openai || "Ich denke nach ...",
+          tooltip_reset: prev.tooltip_reset || "Chat zurücksetzen",
+          tooltip_close: prev.tooltip_close || "Chat schließen",
+          loading_app: prev.loading_app || "Chat laden...",
         }));
       } finally {
         setIsLoading(false);
@@ -127,108 +175,152 @@ function App() {
   }
 
   const handleSend = async (content: string) => {
-    // Wenn die Nachricht von einem Button kommt, wird sie als "user" Nachricht hinzugefügt.
-    const userMessage: Message = { role: "user", content };
-    setMessages((prev) => [...prev, userMessage]);
+    // 1) User-Nachricht direkt hinzufügen
+    setMessages((prev) => [...prev, { role: "user", content }]);
     setIsStreaming(true);
 
-    try {
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
+    // 2) Platzhalter für Assistant einfügen (wird live aktualisiert)
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: settings.loading_api || "Ich denke nach ..." },
+    ]);
+    const assistantIndex = messages.length + 1; // Index des Platzhalters
 
-      if (threadId) {
-        headers["x-thread-id"] = threadId;
-      }
+    try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (threadId) headers["x-thread-id"] = threadId;
 
       const params = new URLSearchParams(window.location.search);
       const widgetId = params.get("id") || null;
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant" as const,
-          content: settings.loading_api || "Ich denke nach ...",
-        },
-      ]);
-
-      // Hier wird der System-Prompt direkt an das Backend geschickt,
-      // da die RAG-Logik dort angewendet wird.
       const response = await fetch(`${API_ENDPOINT}/chat`, {
         method: "POST",
         headers,
         body: JSON.stringify({
-          message: content, // Sende den ursprünglichen Inhalt der Benutzernachricht
+          message: content,
           widgetId,
           settings,
         }),
       });
 
-      const reader = response.body?.getReader();
-      let assistantMessage = "";
+      if (!response.ok || !response.body) {
+        throw new Error(`HTTP ${response.status}`);
+      }
 
-      setMessages((prev) => {
-        const newMessages = [...prev];
-        newMessages[newMessages.length - 1] = {
-          role: "assistant" as const,
-          content: settings.loading_openai || "Ich denke ...",
-        };
-        return newMessages;
-      });
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
 
-      while (reader) {
+      // Buffer für evtl. finalen JSON-Block (Cards)
+      let jsonBuf = "";
+      let cardsDelivered = false;
+
+      while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const text = new TextDecoder().decode(value);
-        const messages = text.split("\n\n");
+        const chunk = decoder.decode(value, { stream: true });
+        // Server sendet zeilenweise "data: ..."
+        const lines = chunk.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
 
-        for (const message of messages) {
-          if (message.startsWith("data: ")) {
-            const data = message.slice(6);
-            if (data === "[DONE]") break;
+        for (const line of lines) {
+          if (!line.startsWith("data:")) continue;
 
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.content) {
-                assistantMessage += parsed.content;
-                setMessages((prev) => {
-                  const newMessages = [...prev];
-                  newMessages[newMessages.length - 1] = {
-                    role: "assistant",
-                    content: assistantMessage,
-                  };
-                  return newMessages;
-                });
-              } else if (parsed.info) {
-                setThreadId(parsed.info.id);
-                localStorage.setItem(STORAGE_KEYS.THREAD_ID, parsed.info.id);
+          const payload = line.slice(5).trim();
+          if (payload === "[DONE]") {
+            // Falls noch kompletter JSON im Buffer
+            if (!cardsDelivered && looksLikeCompleteJson(jsonBuf)) {
+              try {
+                const json = JSON.parse(jsonBuf);
+                if (isAssistantPayload(json)) {
+                  setMessages((prev) => {
+                    const next = [...prev];
+                    next[assistantIndex] = { role: "assistant", content: "", payload: json };
+                    return next;
+                  });
+                  cardsDelivered = true;
+                }
+              } catch {
+                // ignorieren
               }
-            } catch (e) {
-              console.error("Error parsing SSE message:", e);
             }
+            break;
+          }
+
+          // Versuche zunächst, ob dies ein finaler JSON-Block ist (Cards)
+          jsonBuf += payload;
+          if (looksLikeCompleteJson(jsonBuf)) {
+            try {
+              const obj = JSON.parse(jsonBuf);
+
+              // Fall A: ThreadInfo
+              if (obj?.info?.id) {
+                setThreadId(obj.info.id);
+                localStorage.setItem(STORAGE_KEYS.THREAD_ID, obj.info.id);
+                jsonBuf = ""; // Info verbraucht, Buffer leeren
+                continue;
+              }
+
+              // Fall B: strukturierte Cards
+              if (isAssistantPayload(obj)) {
+                setMessages((prev) => {
+                  const next = [...prev];
+                  next[assistantIndex] = { role: "assistant", content: "", payload: obj };
+                  return next;
+                });
+                cardsDelivered = true;
+                jsonBuf = "";
+                continue;
+              }
+
+              // Fall C: Token-Stream { content: "..." }
+              if (typeof obj?.content === "string") {
+                const token = obj.content;
+                setMessages((prev) => {
+                  const next = [...prev];
+                  const current = next[assistantIndex];
+                  // Falls bereits Cards gesetzt wurden, keine Tokens mehr anhängen
+                  if (current.payload) return next;
+                  next[assistantIndex] = {
+                    role: "assistant",
+                    content: (current.content || "") + token,
+                  };
+                  return next;
+                });
+                jsonBuf = "";
+                continue;
+              }
+
+              // Unbekannte Struktur – Buffer leeren, damit nichts stehen bleibt
+              jsonBuf = "";
+            } catch {
+              // JSON noch nicht komplett – weiter puffern
+            }
+          } else {
+            // JSON (noch) nicht komplett; es könnte aber auch ein Token-Fragment sein,
+            // das nicht als gültiges JSON daherkommt. Diese Variante
+            // (plain-Tokens ohne {content}) unterstützen wir hier bewusst nicht,
+            // da dein Server immer JSON in "data:" liefert.
           }
         }
       }
     } catch (error) {
       console.error("Error:", error);
-      // Fallback message in case of API error
       setMessages((prev) => {
-        const newMessages = [...prev];
-        newMessages[newMessages.length - 1] = {
+        const next = [...prev];
+        next[next.length - 1] = {
           role: "assistant",
           content:
             "Entschuldigung, es gab einen Fehler bei der Kommunikation mit dem Server. Bitte versuchen Sie es später erneut.",
         };
-        return newMessages;
+        return next;
       });
     } finally {
       setIsStreaming(false);
+      setTimeout(scrollToBottom, 50);
     }
   };
 
   const handlePredefinedQuestionClick = (question: string) => {
-    // Hier rufen wir handleSend auf, um die vorformulierte Frage zu verarbeiten
     handleSend(question);
   };
 
@@ -276,21 +368,19 @@ function App() {
         {messages.length === 0 && settings.welcome_text && (
           <div className="text-center px-4 py-2 rounded-lg text-gray-600 mb-4">
             <p>{settings.welcome_text}</p>
-            {/* Vorformulierte Fragen als Buttons */}
-            {settings.predefined_questions &&
-              settings.predefined_questions.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-2 mt-4">
-                  {settings.predefined_questions.map((question, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handlePredefinedQuestionClick(question)}
-                      className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors cursor-pointer text-sm"
-                    >
-                      {question}
-                    </button>
-                  ))}
-                </div>
-              )}
+            {settings.predefined_questions?.length ? (
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {settings.predefined_questions.map((q, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handlePredefinedQuestionClick(q)}
+                    className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors cursor-pointer text-sm"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            ) : null}
           </div>
         )}
 
@@ -312,6 +402,7 @@ function App() {
         disabled={isStreaming}
         settings={{ input_placeholder: settings.input_placeholder }}
       />
+
       {settings.show_poweredby && (
         <a
           href="https://kasper.digital"
@@ -323,45 +414,22 @@ function App() {
         </a>
       )}
 
+      {/* einfache Card-Styles (falls du Tailwind nutzt, kannst du das auch in CSS auslagern) */}
       <style>{`
         .card {
           background: #ffffff;
           border: 1px solid #e0e0e0;
           border-radius: 12px;
           padding: 1rem 1.25rem;
-          margin-bottom: -15px;
+          margin-bottom: 0.75rem;
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
           transition: box-shadow 0.2s ease;
         }
-        
-        .card:hover {
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card h3 {
-          margin-top: -40px;
-          margin-bottom: -50px;
-          font-size: 1.1rem;
-          font-weight: bold;
-        }
-        
-        .card p {
-          margin: 10px 0 0 0;
-          font-size: 0.95rem;
-          color: #444;
-        }
-        
-        .card ul {
-          margin: -90px 0 -50px 0;
-          padding-left: 1.25rem;
-          list-style-type: disc;
-          color: #333;
-          font-size: 0.95rem;
-        }
-        
-        .card li {
-          margin-bottom: -35px;
-        }
+        .card:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .card h3 { margin: 0 0 6px 0; font-size: 1.1rem; font-weight: 700; }
+        .card p { margin: 4px 0 0 0; font-size: 0.95rem; color: #444; }
+        .card ul { margin: 8px 0 0 0; padding-left: 1.25rem; list-style: disc; color: #333; font-size: 0.95rem; }
+        .card li { margin-bottom: 2px; }
       `}</style>
     </div>
   );

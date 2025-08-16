@@ -1,0 +1,429 @@
+{
+  "type": "node--betrieb",
+  "id": "c60570f9-6ce1-4670-be51-7a5f5e49338d",
+  "links": {
+    "self": {
+      "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d?resourceVersion=id%3A7208"
+    }
+  },
+  "drupal_internal__nid": 6944,
+  "drupal_internal__vid": 7208,
+  "langcode": "de",
+  "revision_timestamp": "2020-06-18T07:19:26+00:00",
+  "status": true,
+  "title": "Flaspöler Bauunternehmen Gmbh & Co. KG",
+  "created": "2020-06-17T11:10:17+00:00",
+  "changed": "2020-06-18T07:19:26+00:00",
+  "promote": false,
+  "sticky": false,
+  "default_langcode": true,
+  "revision_translation_affected": true,
+  "metatag": null,
+  "path": {
+    "alias": "/betrieb/flaspoeler-bauunternehmen-gmbh-co-kg",
+    "pid": 1077,
+    "langcode": "de"
+  },
+  "rh_action": "display_page",
+  "rh_redirect": null,
+  "rh_redirect_response": 301,
+  "rh_redirect_fallback_action": null,
+  "body": null,
+  "field_adresse": {
+    "langcode": null,
+    "country_code": "DE",
+    "locality": "Bissendorf",
+    "postal_code": "49143",
+    "address_line1": "Gewerbepark 4",
+    "address_line2": "",
+    "organization": "Flaspöler Bauunternehmen Gmbh & Co. KG"
+  },
+  "field_ansprechpartner": "Christian Otterbach",
+  "field_arbeitsbereiche": {
+    "value": "Allg. Hochbau",
+    "format": "basic_html",
+    "processed": "Allg. Hochbau"
+  },
+  "field_auszubildende": 4,
+  "field_berufe_im_betrieb": [
+    "Maurer, Betonbauer"
+  ],
+  "field_email": "email@flaspoeler.de",
+  "field_email_ansprechpartner": "email@flaspoeler.de",
+  "field_erwartungen": {
+    "value": "Einsatzbereitschaft, Begeisterungsfähigkeit, Belastbarkeit, Teamfähigkeit, Zuverlässigkeit",
+    "format": "wysiwyg_user",
+    "processed": "Einsatzbereitschaft, Begeisterungsfähigkeit, Belastbarkeit, Teamfähigkeit, Zuverlässigkeit"
+  },
+  "field_geofield": {
+    "value": "POINT(8.144694 52.240498)",
+    "geo_type": "Point",
+    "lat": 52.240498,
+    "lon": 8.144694,
+    "left": 8.144694,
+    "top": 52.240498,
+    "right": 8.144694,
+    "bottom": 52.240498,
+    "geohash": "u1mc1q4fcnsh",
+    "latlon": "52.240498,8.144694"
+  },
+  "field_informationen_fuer_bewerbe": [
+    "Bewerben Sie sich bitte schriftlich per Post",
+    "Bewerben Sie sich bitte schriftlich per Email",
+    "Bewerben Sie sich bitte telefonisch"
+  ],
+  "field_kurzbeschreibung": null,
+  "field_mitarbeiter": 28,
+  "field_social_media_links": [],
+  "field_soziale_netzwerke": [],
+  "field_telefax": "05402 691881",
+  "field_telefon": "05402 691880",
+  "field_website": {
+    "uri": "http://www.flaspoeler.de",
+    "title": "",
+    "options": []
+  },
+  "node_type": {
+    "type": "node_type--node_type",
+    "id": "729315fb-c97f-4cf7-9741-860ff43a6276",
+    "meta": {
+      "drupal_internal__target_id": "betrieb"
+    }
+  },
+  "revision_uid": {
+    "type": "user--user",
+    "id": "6ed4ba55-7d98-4444-a920-ce6799691ef7",
+    "meta": {
+      "drupal_internal__target_id": 26
+    }
+  },
+  "uid": {
+    "type": "user--user",
+    "id": "a17ae825-553b-42ae-a4c8-979fd8f76b12",
+    "links": {
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/user/user/a17ae825-553b-42ae-a4c8-979fd8f76b12"
+      }
+    },
+    "display_name": "Christian Otterbach",
+    "meta": {
+      "drupal_internal__target_id": 403
+    }
+  },
+  "feeds_item": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/feeds_item?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/feeds_item?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_ausbildungsberufe": [
+    {
+      "type": "taxonomy_term--ausbildungsberufe",
+      "id": "d47e9f34-486d-4f37-810a-85c47aefe8d1",
+      "links": {
+        "self": {
+          "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/ausbildungsberufe/d47e9f34-486d-4f37-810a-85c47aefe8d1?resourceVersion=id%3A5543"
+        }
+      },
+      "drupal_internal__tid": 5543,
+      "drupal_internal__revision_id": 5543,
+      "langcode": "de",
+      "revision_created": "2019-08-07T17:00:05+00:00",
+      "status": true,
+      "name": "Maurer/in",
+      "description": {
+        "value": "Maurer/innen stellen Rohbauten für Wohn- und Geschäftsgebäude her. Zunächst betonieren sie das Fundament, dann mauern bzw. betonieren sie Außen- und Innenwände sowie Geschossdecken oder montieren diese aus Fertigteilen. Für Betonarbeiten fertigen sie Schalungen oder montieren Schalungssysteme. Sie setzen Bewehrungen ein, die sie aus Betonstahl z.T. selbst anfertigen.\r\n",
+        "format": "plain_text",
+        "processed": "<p>Maurer/innen stellen Rohbauten für Wohn- und Geschäftsgebäude her. Zunächst betonieren sie das Fundament, dann mauern bzw. betonieren sie Außen- und Innenwände sowie Geschossdecken oder montieren diese aus Fertigteilen. Für Betonarbeiten fertigen sie Schalungen oder montieren Schalungssysteme. Sie setzen Bewehrungen ein, die sie aus Betonstahl z.T. selbst anfertigen.</p>\n"
+      },
+      "weight": 0,
+      "changed": "2022-11-10T15:00:43+00:00",
+      "default_langcode": true,
+      "revision_translation_affected": true,
+      "metatag": null,
+      "path": {
+        "alias": null,
+        "pid": null,
+        "langcode": "de"
+      },
+      "field_binkos_sync": null,
+      "field_medien_zum_beruf": {
+        "uri": "https://www.arbeitsagentur.de/jobsuche/suche?angebotsart=4&was=Maurer%2Fin&wo=osnabr%C3%BCck&umkreis=50&id=10000-1189491647-S",
+        "title": "",
+        "options": []
+      },
+      "field_video_zum_beruf": {
+        "uri": "https://con.arbeitsagentur.de/prod/berufetv/detailansicht/3938",
+        "title": "",
+        "options": []
+      },
+      "field_weblink": {
+        "uri": "https://web.arbeitsagentur.de/berufenet/beruf/3938",
+        "title": "",
+        "options": []
+      },
+      "meta": {
+        "drupal_internal__target_id": 5543
+      },
+      "vid": {
+        "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+        "id": "ca0c055a-6a84-4c7d-9353-d941c736bb39",
+        "meta": {
+          "drupal_internal__target_id": "ausbildungsberufe"
+        }
+      },
+      "revision_user": {
+        "data": null,
+        "links": {
+          "related": {
+            "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/ausbildungsberufe/d47e9f34-486d-4f37-810a-85c47aefe8d1/revision_user?resourceVersion=id%3A5543"
+          },
+          "self": {
+            "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/ausbildungsberufe/d47e9f34-486d-4f37-810a-85c47aefe8d1/relationships/revision_user?resourceVersion=id%3A5543"
+          }
+        }
+      },
+      "parent": [
+        {
+          "type": "taxonomy_term--ausbildungsberufe",
+          "id": "virtual",
+          "meta": {
+            "links": {
+              "help": {
+                "href": "https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual",
+                "meta": {
+                  "about": "Usage and meaning of the 'virtual' resource identifier."
+                }
+              }
+            }
+          }
+        }
+      ],
+      "feeds_item": [
+        {
+          "type": "feeds_feed--ausbildungsberufe",
+          "id": "a84f52f3-c1de-48ee-a9dd-5194f8ee6aa5",
+          "meta": {
+            "imported": "2019-08-08T13:41:05+00:00",
+            "url": null,
+            "guid": "892410f5-6f0d-4ced-b365-a4ed31baa2d1",
+            "hash": "eb3068f29ace32e0ee0ba8215bb011b3",
+            "drupal_internal__target_id": 1
+          }
+        }
+      ],
+      "field_berufsbereich": [
+        {
+          "type": "taxonomy_term--berufsbereiche",
+          "id": "b8dfd30f-cae3-499e-b842-8ff7d8508a36",
+          "links": {
+            "self": {
+              "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/b8dfd30f-cae3-499e-b842-8ff7d8508a36?resourceVersion=id%3A100"
+            }
+          },
+          "drupal_internal__tid": 100,
+          "drupal_internal__revision_id": 100,
+          "langcode": "de",
+          "revision_created": "2019-06-28T20:24:52+00:00",
+          "status": true,
+          "name": "Praktische und handwerkliche Berufe",
+          "description": null,
+          "weight": 0,
+          "changed": "2019-06-28T20:24:52+00:00",
+          "default_langcode": true,
+          "revision_translation_affected": true,
+          "metatag": null,
+          "path": {
+            "alias": "/berufsbereich/praktische-und-handwerkliche-berufe",
+            "pid": 35,
+            "langcode": "de"
+          },
+          "meta": {
+            "drupal_internal__target_id": 100
+          },
+          "vid": {
+            "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+            "id": "c5cd4e45-cc80-47eb-9924-505ad4c39b0f",
+            "meta": {
+              "drupal_internal__target_id": "berufsbereiche"
+            }
+          },
+          "revision_user": {
+            "data": null,
+            "links": {
+              "related": {
+                "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/b8dfd30f-cae3-499e-b842-8ff7d8508a36/revision_user?resourceVersion=id%3A100"
+              },
+              "self": {
+                "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/b8dfd30f-cae3-499e-b842-8ff7d8508a36/relationships/revision_user?resourceVersion=id%3A100"
+              }
+            }
+          },
+          "parent": [
+            {
+              "type": "taxonomy_term--berufsbereiche",
+              "id": "virtual",
+              "meta": {
+                "links": {
+                  "help": {
+                    "href": "https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual",
+                    "meta": {
+                      "about": "Usage and meaning of the 'virtual' resource identifier."
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "taxonomy_term--berufsbereiche",
+          "id": "49f3cb0f-59a2-400d-a19f-9c5f4f86f03b",
+          "links": {
+            "self": {
+              "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/49f3cb0f-59a2-400d-a19f-9c5f4f86f03b?resourceVersion=id%3A73"
+            }
+          },
+          "drupal_internal__tid": 73,
+          "drupal_internal__revision_id": 73,
+          "langcode": "de",
+          "revision_created": "2019-06-28T20:24:52+00:00",
+          "status": true,
+          "name": "Bautechnik, Architektur",
+          "description": null,
+          "weight": 0,
+          "changed": "2019-07-03T20:27:08+00:00",
+          "default_langcode": true,
+          "revision_translation_affected": true,
+          "metatag": null,
+          "path": {
+            "alias": "/berufsbereich/bautechnik-architektur",
+            "pid": 8,
+            "langcode": "de"
+          },
+          "meta": {
+            "drupal_internal__target_id": 73
+          },
+          "vid": {
+            "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+            "id": "c5cd4e45-cc80-47eb-9924-505ad4c39b0f",
+            "meta": {
+              "drupal_internal__target_id": "berufsbereiche"
+            }
+          },
+          "revision_user": {
+            "data": null,
+            "links": {
+              "related": {
+                "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/49f3cb0f-59a2-400d-a19f-9c5f4f86f03b/revision_user?resourceVersion=id%3A73"
+              },
+              "self": {
+                "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/taxonomy_term/berufsbereiche/49f3cb0f-59a2-400d-a19f-9c5f4f86f03b/relationships/revision_user?resourceVersion=id%3A73"
+              }
+            }
+          },
+          "parent": [
+            {
+              "type": "taxonomy_term--berufsbereiche",
+              "id": "b8dfd30f-cae3-499e-b842-8ff7d8508a36",
+              "meta": {
+                "drupal_internal__target_id": 100
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_besondereleistungen": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_besondereleistungen?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_besondereleistungen?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_betriebsart": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_betriebsart?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_betriebsart?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_bietet_an": [
+    {
+      "type": "taxonomy_term--angebot",
+      "id": "64404227-2655-4eac-a9f4-ed74bd463be9",
+      "meta": {
+        "drupal_internal__target_id": 988
+      }
+    }
+  ],
+  "field_download": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_download?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_download?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_filedownload": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_filedownload?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_filedownload?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_image": {
+    "data": null,
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_image?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_image?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_one_klick_bewerbung": {
+    "data": null,
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_one_klick_bewerbung?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_one_klick_bewerbung?resourceVersion=id%3A7208"
+      }
+    }
+  },
+  "field_video": {
+    "data": [],
+    "links": {
+      "related": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/field_video?resourceVersion=id%3A7208"
+      },
+      "self": {
+        "href": "https://www.ausbildungsregion-osnabrueck.de/jsonapi/node/betrieb/c60570f9-6ce1-4670-be51-7a5f5e49338d/relationships/field_video?resourceVersion=id%3A7208"
+      }
+    }
+  }
+}
